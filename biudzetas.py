@@ -16,11 +16,9 @@ class Biudzetas:
     def __init__(self):
         self.masyvas = []
 
-
     def prideti_pajamas(self, suma, siuntejas, papildoma_informacija):
         pridetos_pajamos = PajamuIrasas(suma, siuntejas, papildoma_informacija)
         self.masyvas.append(pridetos_pajamos)
-
 
     def prideti_islaidas(self, suma, atsiskaitymo_budas, isigyta_preke_paslauga):
         pridetos_islaidos = IslaiduIrasas(suma, atsiskaitymo_budas, isigyta_preke_paslauga)
@@ -38,13 +36,17 @@ class Biudzetas:
     def gauti_ataskaita(self):
         for irasas in self.masyvas:
             if isinstance(irasas, PajamuIrasas):
-                print(f"Pajamos: {irasas.suma}, Siuntejas: {irasas.siuntejas}, Papildoma info: {irasas.papildoma_informacija}")
+                print(
+                    f"Pajamos: {irasas.suma}, Siuntejas: {irasas.siuntejas}, Papildoma info: {irasas.papildoma_informacija}")
             if isinstance(irasas, IslaiduIrasas):
-                print (f"Islaidos: {irasas.suma}, Atsiskaitymo budas: {irasas.atsiskaitymo_budas}, Preke arba Paslauga: {irasas.isigyta_preke_paslauga}")
+                print(
+                    f"Islaidos: {irasas.suma}, Atsiskaitymo budas: {irasas.atsiskaitymo_budas}, Preke arba Paslauga: {irasas.isigyta_preke_paslauga}")
+
 
 naujas_irasas = Biudzetas()
 while True:
-    veiksmas = int(input("1 - ivesti pajamas, 2 - ivesti islaidas, 3 - perziureti balansa, 4 - perziureti ataskaita, 5 - uzbaigti programa"))
+    veiksmas = int(input(
+        "1 - ivesti pajamas, 2 - ivesti islaidas, 3 - perziureti balansa, 4 - perziureti ataskaita, 5 - uzbaigti programa"))
     if veiksmas == 1:
         suma = float(input("Iveskite pajamas: "))
         siuntejas = str(input("Iveskite siunteja: "))
