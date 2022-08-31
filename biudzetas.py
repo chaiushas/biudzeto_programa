@@ -1,65 +1,33 @@
-class PajamuIrasas():
-    def __init__(self, suma, siuntejas, papildoma_informacija):
-        self.suma = suma
-        self.siuntejas = siuntejas
-        self.papildoma_informacija = papildoma_informacija
+import pickle
 
-
-class IslaiduIrasas():
-    def __init__(self, suma, atsiskaitymo_budas, isigyta_preke_paslauga):
-        self.suma = suma
-        self.atsiskaitymo_budas = atsiskaitymo_budas
-        self.isigyta_preke_paslauga = isigyta_preke_paslauga
-
-
-class Biudzetas:
-    def __init__(self):
-        self.masyvas = []
-
-    def prideti_pajamas(self, suma, siuntejas, papildoma_informacija):
-        pridetos_pajamos = PajamuIrasas(suma, siuntejas, papildoma_informacija)
-        self.masyvas.append(pridetos_pajamos)
-
-    def prideti_islaidas(self, suma, atsiskaitymo_budas, isigyta_preke_paslauga):
-        pridetos_islaidos = IslaiduIrasas(suma, atsiskaitymo_budas, isigyta_preke_paslauga)
-        self.masyvas.append(pridetos_islaidos)
-
-    def gauti_balansa(self):
-        balansas = 0
-        for irasas in self.masyvas:
-            if isinstance(irasas, PajamuIrasas):
-                balansas += irasas.suma
-            if isinstance(irasas, IslaiduIrasas):
-                balansas = balansas - irasas.suma
-        return balansas
-
-    def gauti_ataskaita(self):
-        for irasas in self.masyvas:
-            if isinstance(irasas, PajamuIrasas):
-                print(
-                    f"Pajamos: {irasas.suma}, Siuntejas: {irasas.siuntejas}, Papildoma info: {irasas.papildoma_informacija}")
-            if isinstance(irasas, IslaiduIrasas):
-                print(
-                    f"Islaidos: {irasas.suma}, Atsiskaitymo budas: {irasas.atsiskaitymo_budas}, Preke arba Paslauga: {irasas.isigyta_preke_paslauga}")
-
-
-naujas_irasas = Biudzetas()
+biudzeto_masyvas = []
 while True:
     veiksmas = int(input(
-        "1 - ivesti pajamas, 2 - ivesti islaidas, 3 - perziureti balansa, 4 - perziureti ataskaita, 5 - uzbaigti programa"))
-    if veiksmas == 1:
-        suma = float(input("Iveskite pajamas: "))
-        siuntejas = str(input("Iveskite siunteja: "))
-        papildoma_informacija = str(input("Iveskite papildoma info: "))
-        pajamos1 = naujas_irasas.prideti_pajamas(suma, siuntejas, papildoma_informacija)
-    if veiksmas == 2:
-        suma = float(input("Iveskite islaidas: "))
-        atsiskaitymo_budas = str(input("Iveskite atsiskaitymo buda: "))
-        isigyta_preke_paslauga = str(input("Iveskite isigyta preke ar paslauga: "))
-        islaidos1 = naujas_irasas.prideti_islaidas(suma, atsiskaitymo_budas, isigyta_preke_paslauga)
-    if veiksmas == 3:
-        print(f"{naujas_irasas.gauti_balansa()}")
-    if veiksmas == 4:
-        naujas_irasas.gauti_ataskaita()
-    if veiksmas == 5:
+        "1 - ivesti pajamas arba islaidas, 2 - paziureti pajamas ir islaidas, 3 - balansas, 0 - uzdaryti programa"))
+    if veiksmas == 1:  # ivesti pajamas arba islaidas
+        with open("biudzetas.pkl", "wb") as pickle_in:
+            paj_isl = float(input("Iveskite suma: "))
+            biudzeto_masyvas.append(paj_isl)
+            pickle.dump(biudzeto_masyvas, pickle_in)
+        with open("biudzetas.pkl", "rb") as pickle_out:
+            pickle.load(pickle_out)
+    if veiksmas == 2:  # perziureti pajamas ir islaidas
+        try:
+            with open("biudzetas.pkl", "rb") as pickle_out:
+                print(pickle.load(pickle_out))
+        except:
+            print("Failas neegzistuoja!")
+            with open("biudzetas.pkl", "wb") as pickle_in:
+                pickle.dump(biudzeto_masyvas, pickle_in)
+    if veiksmas == 3:  # balansas
+        try:
+            with open("biudzetas.pkl", "rb") as pickle_out:
+                masyvas_isl_paj = pickle.load(pickle_out)
+                balansas = sum(i for i in masyvas_isl_paj)
+                print(balansas)
+        except:
+            print("Failas neegzistuoja!")
+            with open("biudzetas.pkl", "wb") as pickle_in:
+                pickle.dump(biudzeto_masyvas, pickle_in)
+    if veiksmas == 0:  # uzbaigti programa
         break
