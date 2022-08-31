@@ -3,7 +3,7 @@ import pickle
 biudzeto_masyvas = []
 while True:
     veiksmas = int(input(
-        "1 - ivesti pajamas arba islaidas, 2 - paziureti pajamas ir islaidas, 3 - balansas, 0 - uzdaryti programa"))
+        "1 - ivesti pajamas arba islaidas, 2 - paziureti pajamas ir islaidas, 3 - balansas, 0 - uzbaigti programa "))
     if veiksmas == 1:  # ivesti pajamas arba islaidas
         with open("biudzetas.pkl", "wb") as pickle_in:
             paj_isl = float(input("Iveskite suma: "))
@@ -30,4 +30,5 @@ while True:
             with open("biudzetas.pkl", "wb") as pickle_in:
                 pickle.dump(biudzeto_masyvas, pickle_in)
     if veiksmas == 0:  # uzbaigti programa
+        print("Programa uzbaigta")
         break
